@@ -44,17 +44,20 @@ int main(int argc, char* argv[]) {
 返回值 `false` 说明不能被认为是整数.
 
 ```cpp
-bool is_integer(std::string const& s) {
-    auto i = s.begin();
-    if (*i == '-' || *i == '+') {
-        ++i;
-        if (i == s.end()) return false;
-    }
-    for ( ; i != s.end(); ++i) {
-        if (*i < '0' || *i > '9') {
+bool is_digit(std::string const& s) {
+    for (auto const & c : s) {
+        if (c < '0' || c > '9') {
             return false;
         }
     }
     return true;
+}
+
+bool is_integer(std::string const& s) {
+    auto c = s.front();
+    if (c == '-' || c == '+') {
+        return is_digit(s.substr(1));
+    }
+    return is_digit(s);
 }
 ```
