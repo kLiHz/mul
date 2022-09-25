@@ -1,3 +1,10 @@
+# Report: Project Mul
+
+## 读取命令行参数
+
+命令行选项能够从 `main` 函数的参数中读取到. 代码如下:
+
+```cpp
 #include <string>
 #include <iostream>
 
@@ -13,3 +20,4 @@ int main(int argc, char* argv[]) {
     std::cout << "Arguments are '" << a << "' and '" << b << "'\n";
     return 0;
 }
+```
