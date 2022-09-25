@@ -2,3 +2,16 @@
 *.out
 
 *build*/
+
+# JetBrains
+
+.idea/
+
+# Visual Studio
+
+.vs/
+out/
+
+# Visual Studio Code
+
+.vscode/
