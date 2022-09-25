@@ -15,7 +15,7 @@ bool is_integer(std::string const& s) {
     if (c == '-' || c == '+') {
         return is_digit(s.substr(1));
     }
-    return is_digit(s);
+    else return is_digit(s);
 }
 
 bool is_decimal(std::string const& s) {
