@@ -45,6 +45,7 @@ bool is_float(std::string const& s) {
 }
 
 int main(int argc, char* argv[]) {
+
     if (argc < 3) {
         std::cerr << "Illegal arguments.\n";
         std::cout << "Usage:\n"
@@ -56,9 +57,10 @@ int main(int argc, char* argv[]) {
     std::cout << "Arguments are '" << s[0] << "' and '" << s[1] << "'\n";
 
     bool is_int[2];
+    bool parse_failed = false;
 
-    long long ll_value[2];
-    double double_value[2];
+    long long ll_value[2] = { 0, 0 };
+    double double_value[2] = { 0, 0 };
 
     for (int i = 0; i < 2; ++i) {
         is_int[i] = is_integer(s[i]);
@@ -70,8 +72,26 @@ int main(int argc, char* argv[]) {
             std::cout << "Input '" << s[i] << "' are interpreted as float: " << double_value[i] << "\n";
         } else {
             std::cout << "The input '" << s[i] << "' cannot be interpreted as number.\n";
+            parse_failed = true;
         }
     }
+
+    if (parse_failed) {
+        std::cout << "Program terminated.\n";
+        return 1;
+    }
+
+    double result = 1;
+
+    for (int i = 0; i < 2; ++i) {
+        if (is_int[i]) {
+            result = result * (double) ll_value[i];
+        } else {
+            result = result * double_value[i];
+        }
+    }
+    
+    std::cout << s[0] << " * " << s[1] << " = " << result << "\n";
 
     return 0;
 }

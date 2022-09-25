@@ -96,3 +96,25 @@ bool is_float(std::string const& s) {
     }
 }
 ```
+
+## 计算结果
+
+现有的实现中, 采用了两个 `long long` 型变量和两个 `double` 型变量来存储解析的结果.
+
+由于两数可能不同属于一个类型, 继而存储在不同的变量数组中, 因此需要在运算时根据 `is_int` 数组中存储的信息进行判断, 选择正确的变量进行运算.
+
+为了简便, 使用 `double` 类型作为运算中间变量的类型.
+
+```cpp
+double foo(bool is_int[], long long ll_value[], double double_value[]) {
+    double result = 1;
+    for (int i = 0; i < 2; ++i) {
+        if (is_int[i]) {
+            result = result * (double) ll_value[i];
+        } else {
+            result = result * double_value[i];
+        }
+    }
+    return result;
+}
+```
