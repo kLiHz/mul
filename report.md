@@ -120,3 +120,19 @@ double foo(bool is_int[], long long ll_value[], double double_value[]) {
     return result;
 }
 ```
+
+### 遇到超出范围的数据的情况
+
+在使用 `std::stod` 等函数从字符串转换值的时候, 如果值超出了范围, 会抛出 `std::out_of_range` 异常.
+
+```cpp
+void foo() {
+    try {
+        auto v = std::stod("132.34e1000");
+    } catch (std::out_of_range const& ex) {
+        std::cout << "std::out_of_range::what(): " << ex.what() << '\n';
+    }
+}
+```
+
+一种可能的处理方案就是让程序 "罢工".

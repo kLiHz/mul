@@ -63,15 +63,30 @@ int main(int argc, char* argv[]) {
     double double_value[2] = { 0, 0 };
 
     for (int i = 0; i < 2; ++i) {
-        is_int[i] = is_integer(s[i]);
-        if (is_int[i]) {
-            ll_value[i] = std::stoll(s[i]);
-            std::cout << "Input '" << s[i] << "' are interpreted as int: " << ll_value[i] << "\n";
+        std::cout << "Input '" << s[i];
+        if (is_integer(s[i])) {
+            is_int[i] = true;
+            std::cout << "' is interpreted as int: ";
+            try {
+                ll_value[i] = std::stoll(s[i]);
+                std::cout << ll_value[i] << "\n";
+            } catch (std::out_of_range const& ex) {
+                std::cout << "ERROR!\n";
+                std::cout << "Exception when parsing '" << s[i] << "': std::out_of_range::what(): " << ex.what() << '\n';
+                parse_failed = true;
+            }
         } else if (is_float(s[i])) {
-            double_value[i] = std::stod(s[i]);
-            std::cout << "Input '" << s[i] << "' are interpreted as float: " << double_value[i] << "\n";
+            std::cout << "' is interpreted as float: ";
+            try {
+                double_value[i] = std::stod(s[i]);
+                std::cout << double_value[i] << "\n";
+            } catch (std::out_of_range const& ex) {
+                std::cout << "ERROR!\n";
+                std::cout << "Exception when parsing '" << s[i] << "': std::out_of_range::what(): " << ex.what() << '\n';
+                parse_failed = true;
+            }
         } else {
-            std::cout << "The input '" << s[i] << "' cannot be interpreted as number.\n";
+            std::cout << "' cannot be interpreted as number.\n";
             parse_failed = true;
         }
     }
