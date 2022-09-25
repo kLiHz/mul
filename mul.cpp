@@ -18,6 +18,32 @@ bool is_integer(std::string const& s) {
     return is_digit(s);
 }
 
+bool is_decimal(std::string const& s) {
+    auto dot_pos = s.find('.');
+    if (dot_pos != std::string::npos) {
+        auto a = s.substr(0, dot_pos);
+        auto b = s.substr(dot_pos + 1);
+        if (b.length() == 0) {
+            return is_integer(a);
+        } else {
+            return is_integer(a) && is_digit(b);
+        }
+    } else {
+        return is_integer(s);
+    }
+}
+
+bool is_float(std::string const& s) {
+    auto e_pos = s.find_first_of("eE");
+    if (e_pos != std::string::npos) {
+        auto decimal_part = s.substr(0, e_pos);
+        auto exponent_part = s.substr(e_pos + 1);
+        return is_decimal(decimal_part) && is_integer(exponent_part);
+    } else {
+        return is_decimal(s);
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "Illegal arguments.\n";
@@ -39,6 +65,9 @@ int main(int argc, char* argv[]) {
         if (is_int[i]) {
             ll_value[i] = std::stoll(s[i]);
             std::cout << "Input '" << s[i] << "' are interpreted as int: " << ll_value[i] << "\n";
+        } else if (is_float(s[i])) {
+            double_value[i] = std::stod(s[i]);
+            std::cout << "Input '" << s[i] << "' are interpreted as float: " << double_value[i] << "\n";
         } else {
             std::cout << "The input '" << s[i] << "' cannot be interpreted as number.\n";
         }

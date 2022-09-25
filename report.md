@@ -61,3 +61,38 @@ bool is_integer(std::string const& s) {
     return is_digit(s);
 }
 ```
+
+如果不满足被解释为整数的条件, 再尝试解析为浮点数.
+
+解析浮点数的思路是分为两种情况处理, 一种是包含字符 `e`, 一种是不包含字符 `e`;
+
+- 包含字符 `e` 的情况是分为前后两半, 前半部分应为一个合法的小数, 使用 `is_decimal` 函数判断, 后者应为一个合法的整数, 使用 `is_integer` 判断;
+- 不包含字符 `e` 的情况, 则整个部分应该为一个合法的小数, 使用 `is_decimal` 函数判断.
+
+```cpp
+bool is_decimal(std::string const& s) {
+    auto dot_pos = s.find('.');
+    if (dot_pos != std::string::npos) {
+        auto a = s.substr(0, dot_pos);
+        auto b = s.substr(dot_pos + 1);
+        if (b.length() == 0) {
+            return is_integer(a);
+        } else {
+            return is_integer(a) && is_digit(b);
+        }
+    } else {
+        return is_integer(s);
+    }
+}
+
+bool is_float(std::string const& s) {
+    auto e_pos = s.find_first_of("eE");
+    if (e_pos != std::string::npos) {
+        auto decimal_part = s.substr(0, e_pos);
+        auto exponent_part = s.substr(e_pos + 1);
+        return is_decimal(decimal_part) && is_integer(exponent_part);
+    } else {
+        return is_decimal(s);
+    }
+}
+```
