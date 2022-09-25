@@ -70,7 +70,7 @@ public:
         auto dot_pos = a_.find('.');
         auto s = a_.substr(0, dot_pos) + a_.substr(dot_pos + 1);
 	while (!s.empty() && s.back() == '0') { s.pop_back(); }
-        auto non_zero_pos = s.find_first_not_of('0');
+        auto non_zero_pos = s.find_first_not_of("+-0");
         if (non_zero_pos != std::string::npos) {
             auto t = dot_pos - non_zero_pos - 1;
             this->a = std::stoll(s);
